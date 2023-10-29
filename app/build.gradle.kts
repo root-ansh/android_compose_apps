@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose) //hilt for compose
     kapt(libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.runtime.livedata)
 
     //arch: coroutines
     implementation(libs.kotlinx.coroutines.core)

@@ -5,4 +5,4 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardSharedViewModel @Inject constructor() :ViewModel() {}
+class UserSharedViewModel @Inject constructor() :ViewModel() {}

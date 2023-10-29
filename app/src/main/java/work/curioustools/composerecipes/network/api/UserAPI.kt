@@ -8,7 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import work.curioustools.composerecipes.network.utils.BackendJsonStructure
-import work.curioustools.composerecipes.network.models.CreateUserRequest
+import work.curioustools.composerecipes.network.models.UserRequest
 import work.curioustools.composerecipes.network.models.CreateUserResponse
 import work.curioustools.composerecipes.network.models.UserResponse
 
@@ -24,12 +24,12 @@ interface UserAPI {
 
 
     @POST("/users")
-    suspend fun createUser(@Body data: CreateUserRequest): Response<BackendJsonStructure<CreateUserResponse>>
+    suspend fun createUser(@Body data: UserRequest): Response<BackendJsonStructure<CreateUserResponse>>
 
     @PATCH("/users/{id}")
     suspend fun updateUser(
         @Path("id") id: Int,
-        @Body data: CreateUserRequest
+        @Body data: UserRequest
     ): Response<BackendJsonStructure<CreateUserResponse>>
 
 

@@ -8,6 +8,7 @@ import work.curioustools.composerecipes.network.repos.UserRepo
 import work.curioustools.composerecipes.network.usecases.CreateUserUseCase
 import work.curioustools.composerecipes.network.usecases.GetAllUsersUseCase
 import work.curioustools.composerecipes.network.usecases.GetSingleUserUseCase
+import work.curioustools.composerecipes.network.usecases.TestUseCase
 import work.curioustools.composerecipes.network.usecases.UpdateUserUseCase
 
 
@@ -33,6 +34,11 @@ class UseCaseProviderModule {
     @Provides
     fun provideUpdateUserUseCase(repo: UserRepo): UpdateUserUseCase {
         return UpdateUserUseCase(repo)
+    }
+
+    @Provides
+    fun provideTestUseCase(): TestUseCase {
+        return TestUseCase()
     }
 
 

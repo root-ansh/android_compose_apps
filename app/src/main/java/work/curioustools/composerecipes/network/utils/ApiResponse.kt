@@ -9,5 +9,6 @@ sealed class ApiResponse<T> {
     data class Failure<T>(val errorCode: Int, val errorMsg: String? = null ) : ApiResponse<T>(){
         fun errorCodeType() = ResponseCodeType.values().firstOrNull { it.code==errorCode }?: UNRECOGNISED
     }
+    class Loading<T>:ApiResponse<T>()
 }
 

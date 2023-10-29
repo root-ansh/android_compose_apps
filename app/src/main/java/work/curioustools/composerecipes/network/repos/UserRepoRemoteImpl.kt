@@ -1,7 +1,7 @@
 package work.curioustools.composerecipes.network.repos
 
 import work.curioustools.composerecipes.network.api.UserAPI
-import work.curioustools.composerecipes.network.models.CreateUserRequest
+import work.curioustools.composerecipes.network.models.UserRequest
 import work.curioustools.composerecipes.network.models.CreateUserResponse
 import work.curioustools.composerecipes.network.models.UserResponse
 import work.curioustools.composerecipes.network.utils.ApiResponse
@@ -17,11 +17,11 @@ class UserRepoRemoteImpl @Inject constructor(private val userAPI: UserAPI) : Use
         return userAPI.getUser(id).toApiResponse()
     }
 
-    override suspend fun createUser(data: CreateUserRequest): ApiResponse<CreateUserResponse> {
+    override suspend fun createUser(data: UserRequest): ApiResponse<CreateUserResponse> {
         return userAPI.createUser(data).toApiResponse()
     }
 
-    override suspend fun updateUser(data: CreateUserRequest): ApiResponse<CreateUserResponse> {
+    override suspend fun updateUser(data: UserRequest): ApiResponse<CreateUserResponse> {
         if (data.id == null) error("pass id when updating user. id cannot be null")
         return userAPI.updateUser(data.id, data).toApiResponse()
     }
