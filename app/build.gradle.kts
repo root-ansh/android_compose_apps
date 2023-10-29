@@ -2,8 +2,8 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -26,8 +26,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -40,6 +39,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -54,6 +54,9 @@ android {
         includeInBundle = true
     }
 
+}
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
@@ -93,6 +96,7 @@ dependencies {
     //ui: glide and coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
+    implementation (libs.glide)
 
     //ui: material and androidx.core
     implementation(libs.core.ktx)
@@ -120,7 +124,4 @@ dependencies {
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
 
-}
-kapt {
-    correctErrorTypes = true
 }
