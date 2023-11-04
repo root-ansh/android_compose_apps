@@ -2,7 +2,7 @@ package work.curioustools.composerecipes.network.usecases
 
 import org.json.JSONArray
 import org.json.JSONObject
-import work.curioustools.composerecipes.commons.log
+import work.curioustools.composerecipes.presentation.commons.log
 import work.curioustools.composerecipes.network.models.UserRequest
 import work.curioustools.composerecipes.network.models.CreateUserResponse
 import work.curioustools.composerecipes.network.models.UserResponse

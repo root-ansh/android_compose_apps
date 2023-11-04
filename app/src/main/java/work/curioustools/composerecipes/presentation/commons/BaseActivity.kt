@@ -1,4 +1,4 @@
-package work.curioustools.composerecipes.commons
+package work.curioustools.composerecipes.presentation.commons
 
 import android.util.Log
 import androidx.activity.ComponentActivity

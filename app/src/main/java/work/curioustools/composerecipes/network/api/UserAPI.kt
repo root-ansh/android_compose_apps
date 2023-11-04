@@ -19,14 +19,14 @@ interface UserAPI {
         @Query("per_page") perPage: Int? = null,
     ): Response<BackendJsonStructure<List<UserResponse>>>
 
-    @GET("/users/{id}")
+    @GET("api/users/{id}")
     suspend fun getUser(@Path("id") id: Int): Response<BackendJsonStructure<UserResponse>>
 
 
-    @POST("/users")
+    @POST("api/users")
     suspend fun createUser(@Body data: UserRequest): Response<BackendJsonStructure<CreateUserResponse>>
 
-    @PATCH("/users/{id}")
+    @PATCH("api/users/{id}")
     suspend fun updateUser(
         @Path("id") id: Int,
         @Body data: UserRequest

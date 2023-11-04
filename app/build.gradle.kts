@@ -102,13 +102,18 @@ dependencies {
     //ui: material and androidx.core
     implementation(libs.core.ktx)
     implementation(libs.material3)
+    implementation( libs.androidx.fragment.ktx)
+
 
     //ui: compose
     implementation(platform(libs.compose.bom))
+    implementation("androidx.compose.foundation:foundation")
     implementation(libs.activity.compose)
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
+    implementation(libs.androidx.navigation.compose)
+
 
     //ui: browser,camera,exoplayer(video),recyclerview,constraint layout
 

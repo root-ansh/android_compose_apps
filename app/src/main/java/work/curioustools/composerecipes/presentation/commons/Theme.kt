@@ -1,4 +1,4 @@
-package work.curioustools.composerecipes.commons
+package work.curioustools.composerecipes.presentation.commons
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
