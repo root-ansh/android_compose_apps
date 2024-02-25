@@ -1,18 +1,16 @@
 package io.github.curioustools.composeudemy1.proj1_resume
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
+import android.os.Bundle
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,7 +23,6 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.OpenInBrowser
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -37,13 +34,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
 import io.github.curioustools.composeudemy1.R
 import io.github.curioustools.composeudemy1.utils.BaseComposeActivity
 import io.github.curioustools.composeudemy1.utils.ComposeUtils
@@ -219,13 +216,11 @@ class ResumeActivity : BaseComposeActivity() {
     }
 
     @Composable
-    override fun Ui() {
+    override fun Ui(savedInstanceState: Bundle?) {
         Scaffold {systemPaddings ->
             Surface(modifier = Modifier.padding(systemPaddings), color = ComposeUtils.Colors.Blue40) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(12.dp)
+                    modifier = Modifier.fillMaxSize().padding(12.dp)
                 ) {
                     CardHeader()
                 }
@@ -238,7 +233,7 @@ class ResumeActivity : BaseComposeActivity() {
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun UiPreview() {
-        Ui()
+        Ui(null)
     }
 
 

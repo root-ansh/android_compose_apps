@@ -1,6 +1,7 @@
 package io.github.curioustools.composeudemy1.proj2_tipcalculator
 
 import android.content.res.Configuration
+import android.os.Bundle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +39,7 @@ import io.github.curioustools.composeudemy1.utils.ComposeUtils
 class TipCalculatorActivity : BaseComposeActivity() {
 
     @Composable
-    override fun Ui() {
+    override fun Ui(savedInstanceState: Bundle?) {
         Scaffold(modifier = Modifier.fillMaxSize()) {innerPadding ->
             Column(
                 modifier = Modifier.padding(12.dp),
@@ -142,7 +143,7 @@ class TipCalculatorActivity : BaseComposeActivity() {
     )
     @Composable
     fun Preview() {
-        Ui()
+        Ui(null)
     }
 }
 

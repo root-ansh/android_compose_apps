@@ -27,6 +27,13 @@
             android:layout_margin="8dp"
             android:text="Tip calculator" />
 
+        <Button
+            android:id="@+id/composeFragmentDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Compose Fragment Dashboard" />
+
 
 
 

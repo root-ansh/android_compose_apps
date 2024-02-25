@@ -7,8 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
@@ -29,12 +27,12 @@ abstract class BaseComposeActivity : ComponentActivity() {
                 else -> ComposeUtils.LightColorScheme
             }
             MaterialTheme(colorScheme = colorScheme, typography = ComposeUtils.Typography) {
-                Ui()
+                Ui(savedInstanceState)
             }
 
         }
     }
 
     @Composable
-    abstract fun Ui()
+    abstract fun Ui(savedInstanceState: Bundle?)
 }
