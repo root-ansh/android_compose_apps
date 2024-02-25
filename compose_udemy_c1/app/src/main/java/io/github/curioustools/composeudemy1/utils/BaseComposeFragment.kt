@@ -18,9 +18,7 @@ abstract class BaseComposeFragment:Fragment() {
         return ComposeView(requireContext()).also {
             it.setViewCompositionStrategy(getViewCompositionStrategy())
             it.setContent{
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    Ui(savedInstanceState)
-                }
+                Ui(savedInstanceState)
             }
         }
     }

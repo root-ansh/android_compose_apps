@@ -21,6 +21,7 @@ class ComposeDashboardActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         val navView: BottomNavigationView = binding.navView
 

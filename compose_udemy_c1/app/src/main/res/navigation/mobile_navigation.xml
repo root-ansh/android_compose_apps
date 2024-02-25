@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.HomeFragment"
+        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.GameFragment"
         android:label="@string/title_home"/>
 
     <fragment
