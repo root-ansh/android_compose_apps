@@ -1,4 +1,4 @@
-package io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments
+package io.github.curioustools.composeudemy1.compose_in_frag.fragments
 
 import android.os.Bundle
 import androidx.compose.foundation.clickable
@@ -29,8 +29,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.curioustools.composeudemy1.utils.BaseComposeFragment
-import io.github.curioustools.composeudemy1.utils.ComposeUtils
+import io.github.curioustools.composeudemy1.base.BaseComposeFragment
+import io.github.curioustools.composeudemy1.base.ComposeUtils
+import io.github.curioustools.composeudemy1.base.MyComposeColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 class CounterFragment : BaseComposeFragment() {
@@ -40,8 +41,8 @@ class CounterFragment : BaseComposeFragment() {
     fun MyCard(
         text: String = "Rs. 0/-",
         shape: Shape = RoundedCornerShape(8.dp),
-        color: Color = ComposeUtils.Colors.White,
-        textColor: Color = ComposeUtils.Colors.Black,
+        color: Color = MyComposeColors.White,
+        textColor: Color = MyComposeColors.Black,
         onClick: () -> Unit = {},
     ){
         var starter = Modifier.padding(8.dp).wrapContentHeight().defaultMinSize(120.dp,120.dp)
@@ -72,8 +73,8 @@ class CounterFragment : BaseComposeFragment() {
     fun MyCardOld(
         text: String = "Rs. 0/-",
         shape: Shape = RoundedCornerShape(8.dp),
-        color: Color = ComposeUtils.Colors.White,
-        textColor: Color = ComposeUtils.Colors.Black,
+        color: Color = MyComposeColors.White,
+        textColor: Color = MyComposeColors.Black,
         onClick: () -> Unit = {},
     ) {
 
@@ -118,7 +119,7 @@ class CounterFragment : BaseComposeFragment() {
             amount.intValue += 5
         }
 
-        Surface(color = ComposeUtils.Colors.White) {
+        Surface(color = MyComposeColors.White) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,8 +135,8 @@ class CounterFragment : BaseComposeFragment() {
                 MyCard(
                     text = "+5",
                     shape = CircleShape,
-                    color = ComposeUtils.Colors.Blue40,
-                    textColor = ComposeUtils.Colors.White,
+                    color = MyComposeColors.Blue40,
+                    textColor = MyComposeColors.White,
                     onClick = onClick
                 )
 

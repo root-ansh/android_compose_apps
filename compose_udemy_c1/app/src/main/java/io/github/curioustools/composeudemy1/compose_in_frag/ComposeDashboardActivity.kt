@@ -1,4 +1,4 @@
-package io.github.curioustools.composeudemy1.proj3_compose_in_frag
+package io.github.curioustools.composeudemy1.compose_in_frag
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView

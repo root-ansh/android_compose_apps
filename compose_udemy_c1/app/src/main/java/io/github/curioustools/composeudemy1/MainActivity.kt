@@ -4,9 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.github.curioustools.composeudemy1.databinding.ActivityMainBinding
-import io.github.curioustools.composeudemy1.proj1_resume.ResumeActivity
-import io.github.curioustools.composeudemy1.proj2_tipcalculator.TipCalculatorActivity
-import io.github.curioustools.composeudemy1.proj3_compose_in_frag.ComposeDashboardActivity
+import io.github.curioustools.composeudemy1.resume.ResumeActivity
+import io.github.curioustools.composeudemy1.tipcalculator.TipCalculatorActivity
+import io.github.curioustools.composeudemy1.compose_in_frag.ComposeDashboardActivity
+import io.github.curioustools.composeudemy1.movie.MovieActivity
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
             composeFragmentDashboard.setOnClickListener {
                 startActivity(Intent(this@MainActivity, ComposeDashboardActivity::class.java))
+
+            }
+            movie.setOnClickListener {
+                startActivity(Intent(this@MainActivity, MovieActivity::class.java))
 
             }
         }

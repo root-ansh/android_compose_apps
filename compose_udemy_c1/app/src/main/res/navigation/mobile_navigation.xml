@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.GameFragment"
+        android:name="io.github.curioustools.composeudemy1.compose_in_frag.fragments.GameFragment"
         android:label="@string/title_home"/>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.CounterFragment"
+        android:name="io.github.curioustools.composeudemy1.compose_in_frag.fragments.CounterFragment"
         android:label="@string/title_dashboard"/>
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.NotificationsFragment"
+        android:name="io.github.curioustools.composeudemy1.compose_in_frag.fragments.NotificationsFragment"
         android:label="@string/title_notifications" />
 </navigation>

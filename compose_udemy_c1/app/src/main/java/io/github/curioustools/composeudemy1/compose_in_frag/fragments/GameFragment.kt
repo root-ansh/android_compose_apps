@@ -1,4 +1,4 @@
-package io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments
+package io.github.curioustools.composeudemy1.compose_in_frag.fragments
 
 import android.os.Bundle
 import androidx.compose.animation.AnimatedVisibility
@@ -25,8 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.curioustools.composeudemy1.utils.BaseComposeFragment
-import io.github.curioustools.composeudemy1.utils.ComposeUtils
+import io.github.curioustools.composeudemy1.base.BaseComposeFragment
+import io.github.curioustools.composeudemy1.base.ComposeUtils
+import io.github.curioustools.composeudemy1.base.MyComposeColors
 import kotlin.concurrent.thread
 import kotlin.random.Random
 
@@ -49,7 +50,7 @@ class GameFragment : BaseComposeFragment() {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .background(ComposeUtils.Colors.Blue80)
+                    .background(MyComposeColors.Blue80)
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -69,7 +70,7 @@ class GameFragment : BaseComposeFragment() {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .background(ComposeUtils.Colors.Green80)
+                    .background(MyComposeColors.Green80)
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -97,10 +98,10 @@ class GameFragment : BaseComposeFragment() {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(ComposeUtils.Colors.Black)
+                .background(MyComposeColors.Black)
                 .padding(8.dp),
             style = ComposeUtils.Typography.bodyLarge,
-            color = ComposeUtils.Colors.White,
+            color = MyComposeColors.White,
             text = " You ${if (won) "Won!" else "Lost."} Starting new game in : $counter"
         )
 
@@ -114,7 +115,7 @@ class GameFragment : BaseComposeFragment() {
         Column(
             modifier = Modifier
                 .padding(8.dp)
-                .border(1.dp, ComposeUtils.Colors.Blue80)
+                .border(1.dp, MyComposeColors.Blue80)
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(8.dp)
@@ -128,7 +129,7 @@ class GameFragment : BaseComposeFragment() {
             ) {
                 choices.forEach { choice ->
                     Surface(
-                        shape = RoundedCornerShape(24.dp), color = ComposeUtils.Colors.Red40
+                        shape = RoundedCornerShape(24.dp), color = MyComposeColors.Red40
                     ) {
                         Text(
                             modifier = Modifier
@@ -137,7 +138,7 @@ class GameFragment : BaseComposeFragment() {
                             text = choice.toString(),
                             style = ComposeUtils.Typography.bodyLarge,
                             fontWeight = FontWeight.Bold,
-                            color = ComposeUtils.Colors.White
+                            color = MyComposeColors.White
 
                         )
                     }

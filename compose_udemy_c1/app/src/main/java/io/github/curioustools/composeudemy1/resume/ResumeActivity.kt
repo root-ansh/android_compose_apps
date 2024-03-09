@@ -1,4 +1,4 @@
-package io.github.curioustools.composeudemy1.proj1_resume
+package io.github.curioustools.composeudemy1.resume
 
 import android.content.Intent
 import android.net.Uri
@@ -40,10 +40,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.os.bundleOf
 import io.github.curioustools.composeudemy1.R
-import io.github.curioustools.composeudemy1.utils.BaseComposeActivity
-import io.github.curioustools.composeudemy1.utils.ComposeUtils
+import io.github.curioustools.composeudemy1.base.BaseComposeActivity
+import io.github.curioustools.composeudemy1.base.ComposeUtils
+import io.github.curioustools.composeudemy1.base.MyComposeColors
 
 
 class ResumeActivity : BaseComposeActivity() {
@@ -56,7 +56,7 @@ class ResumeActivity : BaseComposeActivity() {
                 .size(150.dp)
                 .padding(5.dp),
             shape = CircleShape,
-            border = BorderStroke(0.5.dp, ComposeUtils.Colors.Blue40),
+            border = BorderStroke(0.5.dp, MyComposeColors.Blue40),
             shadowElevation = 4.dp
         ) {
 
@@ -106,9 +106,9 @@ class ResumeActivity : BaseComposeActivity() {
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .defaultMinSize(minHeight = 24.dp),
-            color = ComposeUtils.Colors.White,
+            color = MyComposeColors.White,
             shape = RoundedCornerShape(8.dp),
-            border = BorderStroke(2.dp, ComposeUtils.Colors.Grey),
+            border = BorderStroke(2.dp, MyComposeColors.Grey),
         ) {
 
             val data = listOf("App1", "App2", "App3", "App5")
@@ -179,11 +179,11 @@ class ResumeActivity : BaseComposeActivity() {
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .defaultMinSize(minHeight = 140.dp),
-            color = ComposeUtils.Colors.White,
+            color = MyComposeColors.White,
             shape = CutCornerShape(12.dp),
             shadowElevation = 8.dp,
 
-            border = BorderStroke(8.dp, ComposeUtils.Colors.Yellow80),
+            border = BorderStroke(8.dp, MyComposeColors.Yellow80),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -202,7 +202,7 @@ class ResumeActivity : BaseComposeActivity() {
                 OutlinedButton(
                     modifier = Modifier.padding(12.dp),
                     onClick = { showProjects.value = !showProjects.value }) {
-                    Text(text = "View Projecs", color = ComposeUtils.Colors.Black)
+                    Text(text = "View Projecs", color = MyComposeColors.Black)
                 }
                 AnimatedVisibility(visible = showProjects.value){
                     Projects(Modifier.padding(16.dp))
@@ -218,7 +218,7 @@ class ResumeActivity : BaseComposeActivity() {
     @Composable
     override fun Ui(savedInstanceState: Bundle?) {
         Scaffold {systemPaddings ->
-            Surface(modifier = Modifier.padding(systemPaddings), color = ComposeUtils.Colors.Blue40) {
+            Surface(modifier = Modifier.padding(systemPaddings), color = MyComposeColors.Blue40) {
                 Column(
                     modifier = Modifier.fillMaxSize().padding(12.dp)
                 ) {

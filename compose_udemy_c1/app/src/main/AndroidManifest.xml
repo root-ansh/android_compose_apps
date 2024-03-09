@@ -13,15 +13,19 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".proj3_compose_in_frag.ComposeDashboardActivity"
+            android:name=".compose_in_frag.ComposeDashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_compose_dashboard" />
         <activity
-            android:name=".proj2_tipcalculator.TipCalculatorActivity"
+            android:name=".tipcalculator.TipCalculatorActivity"
             android:exported="false"
             android:label="@string/title_activity_tip_calculator" />
         <activity
-            android:name=".proj1_resume.ResumeActivity"
+            android:name=".resume.ResumeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_tip_calculator" />
+        <activity
+            android:name=".movie.MovieActivity"
             android:exported="false"
             android:label="@string/title_activity_tip_calculator" />
         <activity

@@ -1,4 +1,4 @@
-package io.github.curioustools.composeudemy1.proj2_tipcalculator
+package io.github.curioustools.composeudemy1.tipcalculator
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -49,11 +49,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.github.curioustools.composeudemy1.utils.BaseComposeActivity
-import io.github.curioustools.composeudemy1.utils.ComposeUtils
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Black
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.White
-import io.github.curioustools.composeudemy1.utils.toIcon
+import io.github.curioustools.composeudemy1.base.BaseComposeActivity
+import io.github.curioustools.composeudemy1.base.ComposeUtils
+import io.github.curioustools.composeudemy1.base.MyComposeColors
+import io.github.curioustools.composeudemy1.base.MyComposeColors.Black
+import io.github.curioustools.composeudemy1.base.MyComposeColors.White
+import io.github.curioustools.composeudemy1.base.toIcon
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -69,7 +70,7 @@ class TipCalculatorActivity : BaseComposeActivity() {
                 .wrapContentHeight()
                 .defaultMinSize(minHeight = 150.dp)
                 .clip(RoundedCornerShape(12.dp)),
-            color = ComposeUtils.Colors.GreenGrey80
+            color = MyComposeColors.GreenGrey80
         ) {
             Column(
                 modifier = Modifier.padding(12.dp),
@@ -230,6 +231,7 @@ class TipCalculatorActivity : BaseComposeActivity() {
                     activeTrackColor = Black,
                     inactiveTrackColor = Black.copy(0.2f)
                 ),
+                steps = 21,
                 onValueChange = {
                     currentSliderPos.intValue = it.roundToInt()
                     onSliderChange.invoke(it.roundToInt())

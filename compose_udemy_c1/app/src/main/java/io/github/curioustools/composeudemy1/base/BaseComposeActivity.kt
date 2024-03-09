@@ -1,4 +1,4 @@
-package io.github.curioustools.composeudemy1.utils
+package io.github.curioustools.composeudemy1.base
 
 import android.os.Build
 import android.os.Bundle
