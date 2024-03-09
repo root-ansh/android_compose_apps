@@ -1,8 +1,14 @@
 package io.github.curioustools.composeudemy1.utils
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -10,12 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Black
 import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Grey
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Pink40
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Pink80
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Purple40
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Purple80
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.PurpleGrey40
-import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.PurpleGrey80
 import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.White
 
 object ComposeUtils{
@@ -88,3 +88,14 @@ object ComposeUtils{
 
 }
 
+
+@SuppressLint("ModifierFactoryUnreferencedReceiver")
+inline fun Modifier.noRippleClickable(
+    crossinline onClick: () -> Unit
+): Modifier = composed {
+    clickable(
+        indication = null,
+        interactionSource = remember { MutableInteractionSource() }) {
+        onClick()
+    }
+}
