@@ -30,12 +30,17 @@ import io.github.curioustools.composeudemy1.utils.ComposeUtils
 import kotlin.concurrent.thread
 import kotlin.random.Random
 
-class GameFragment: BaseComposeFragment(){
+class GameFragment : BaseComposeFragment() {
 
 
     @Preview(showBackground = true)
     @Composable
-    fun Display(lastChoices: List<Int> = listOf(), userScore: Int = 0, compInput: String = "?", user: String = "?") {
+    fun Display(
+        lastChoices: List<Int> = listOf(),
+        userScore: Int = 0,
+        compInput: String = "?",
+        user: String = "?"
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -88,33 +93,24 @@ class GameFragment: BaseComposeFragment(){
 
     @Preview(showBackground = true)
     @Composable
-    fun Result(won: Boolean = true, onCountDownComplete: ()->Unit = {}){
-        val counter = remember { mutableStateOf(3) }
+    fun Result(won: Boolean = true, counter: Int = 3) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(ComposeUtils.Colors.Black)
-                .padding(8.dp)
-            ,
+                .padding(8.dp),
             style = ComposeUtils.Typography.bodyLarge,
             color = ComposeUtils.Colors.White,
-            text =" You ${if(won)"Won!" else "Lost."} Starting new game in : ${counter.value}"
+            text = " You ${if (won) "Won!" else "Lost."} Starting new game in : $counter"
         )
-        thread {
-            Thread.sleep(600)
-            counter.value--
-            Thread.sleep(600)
-            counter.value--
-            Thread.sleep(600)
-            counter.value = 3
-            onCountDownComplete.invoke()
-        }
 
     }
 
     @Preview(showBackground = true)
     @Composable
-    fun Choice(id: Int = 1, choices: List<Int> = listOf(1, 2, 3, 4, 5), onClick:(Int)->Unit = {}) {
+    fun Choice(
+        id: Int = 1, choices: List<Int> = listOf(1, 2, 3, 4, 5), onClick: (Int) -> Unit = {}
+    ) {
         Column(
             modifier = Modifier
                 .padding(8.dp)
@@ -127,18 +123,18 @@ class GameFragment: BaseComposeFragment(){
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight(), horizontalArrangement = Arrangement.SpaceAround
+                    .wrapContentHeight(),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                choices.forEach {
+                choices.forEach { choice ->
                     Surface(
-                        shape = RoundedCornerShape(24.dp),
-                        color = ComposeUtils.Colors.Red40
+                        shape = RoundedCornerShape(24.dp), color = ComposeUtils.Colors.Red40
                     ) {
                         Text(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 12.dp)
-                                .clickable { onClick.invoke(it) },
-                            text = it.toString(),
+                                .clickable { onClick.invoke(choice) },
+                            text = choice.toString(),
                             style = ComposeUtils.Typography.bodyLarge,
                             fontWeight = FontWeight.Bold,
                             color = ComposeUtils.Colors.White
@@ -155,6 +151,7 @@ class GameFragment: BaseComposeFragment(){
 
     @Composable
     override fun Ui(bundle: Bundle?) {
+
         val counter = remember { mutableIntStateOf(5) }
         val button = remember { mutableStateOf("Start") }
         val showChoice = remember { mutableStateOf(true) }
@@ -165,6 +162,87 @@ class GameFragment: BaseComposeFragment(){
         val compLastSelections = remember { mutableStateOf(mutableListOf<Int>()) }
         val userChoices = remember { mutableStateOf(mutableListOf<Int>()) }
         val won = remember { mutableStateOf(false) }
+        val resultCounter = remember { mutableIntStateOf(3) }
+        val onChoiceSelected: (Int) -> Unit = {
+            userSelectedChoice.value = it.toString()
+            val compChoiceInt = userChoices.value.toList().random()
+            compChoice.value = compChoiceInt.toString()
+            compLastSelections.value.add(compChoiceInt)
+            val hasWon = compChoiceInt == it
+            if (hasWon) {
+                score.intValue++
+                won.value = true
+            } else {
+                won.value = false
+            }
+            showChoice.value = false
+            showResult.value = true
+            thread {
+                Thread.sleep(600)
+                resultCounter.intValue = 2
+                Thread.sleep(600)
+                resultCounter.intValue = 1
+                Thread.sleep(600)
+                activity?.runOnUiThread {
+                    userChoices.value.clear()
+                    userChoices.value = mutableListOf(
+                        Random.nextInt(1, 10),
+                        Random.nextInt(11, 20),
+                        Random.nextInt(21, 30),
+                        Random.nextInt(31, 40),
+                        Random.nextInt(41, 50)
+                    )
+                    userSelectedChoice.value = "?"
+                    compChoice.value = "?"
+                    showChoice.value = true
+                    showResult.value = false
+                    counter.intValue--
+                    button.value = when (counter.intValue) {
+                        5 -> "Start"
+                        0 -> "Restart"
+                        else -> "Stop game"
+
+                    }
+                }
+            }
+        }
+        val onStartStopBtnClick: () -> Unit = {
+            when (counter.intValue) {
+                5, 0 -> {
+                    userChoices.value.clear()
+                    userChoices.value = mutableListOf(
+                        Random.nextInt(1, 10),
+                        Random.nextInt(11, 20),
+                        Random.nextInt(21, 30),
+                        Random.nextInt(31, 40),
+                        Random.nextInt(41, 50)
+                    )
+                    userSelectedChoice.value = "?"
+                    compChoice.value = "?"
+                    score.intValue = 0
+                    showChoice.value = true
+                    showResult.value = false
+                    counter.intValue--
+                    button.value = when (counter.intValue) {
+                        5 -> "Start"
+                        0 -> "Restart"
+                        else -> "Stop game"
+                    }
+                    if (counter.intValue <= 0) {
+                        counter.intValue = 5
+                        compLastSelections.value = mutableListOf()
+                    }
+                }
+
+                else -> {
+                    userChoices.value.clear()
+                    showChoice.value = false
+                    showResult.value = false
+                    counter.intValue = 0
+                }
+
+            }
+        }
 
         Surface {
             Column(
@@ -177,94 +255,18 @@ class GameFragment: BaseComposeFragment(){
                     userScore = score.intValue,
                     compInput = compChoice.value,
                     user = userSelectedChoice.value
-
                 )
                 AnimatedVisibility(visible = showChoice.value) {
                     Choice(
                         id = 5 - counter.intValue + 1,
-                        choices = userChoices.value
-                    ){
-                        userSelectedChoice.value = it.toString()
-                        val compChoiceInt = userChoices.value.random()
-                        compChoice.value = compChoiceInt.toString()
-                        compLastSelections.value.add(compChoiceInt)
-                        val hasWon = compChoiceInt == it
-                        if(hasWon){
-                            score.intValue++
-                            won.value = true
-                        }
-                        else{
-                            won.value  =false
-                        }
-                        showChoice.value = false
-                        showResult.value = true
-                    }
+                        choices = userChoices.value,
+                        onClick = onChoiceSelected
+                    )
                 }
-                AnimatedVisibility(visible = showResult.value ) {
-                    Result(won = won.value){
-                        if(counter.intValue<=0) return@Result
-                        userChoices.value.clear()
-                        userChoices.value = mutableListOf(
-                            Random.nextInt(1,10),
-                            Random.nextInt(11,20),
-                            Random.nextInt(21,30),
-                            Random.nextInt(31,40),
-                            Random.nextInt(41,50)
-                        )
-                        userSelectedChoice.value = "?"
-                        compChoice.value = "?"
-                        showChoice.value = true
-                        showResult.value = false
-                        counter.intValue --
-                        button.value = when(counter.intValue){
-                            5 -> "Start"
-                            0 -> "Restart"
-                            else -> "Stop game"
-                        }
-                    }
+                AnimatedVisibility(visible = showResult.value) {
+                    Result(won = won.value, counter = resultCounter.intValue)
                 }
-                Button(
-                    onClick = {
-                        when(counter.intValue){
-                            5,0 -> {
-                                userChoices.value.clear()
-                                userChoices.value = mutableListOf(
-                                    Random.nextInt(1,10),
-                                    Random.nextInt(11,20),
-                                    Random.nextInt(21,30),
-                                    Random.nextInt(31,40),
-                                    Random.nextInt(41,50)
-                                )
-                                userSelectedChoice.value = "?"
-                                compChoice.value = "?"
-                                score.intValue = 0
-                                showChoice.value = true
-                                showResult.value = false
-                                counter.intValue --
-                                button.value = when(counter.intValue){
-                                    5 -> "Start"
-                                    0 -> "Restart"
-                                    else -> "Stop game"
-                                }
-                                if(counter.intValue <= 0){
-                                    counter.intValue = 5
-                                    compLastSelections.value = mutableListOf()
-                                }
-                            }
-                            else ->{
-                                userChoices.value.clear()
-                                showChoice.value = false
-                                showResult.value = false
-                                counter.intValue = 0
-                            }
-
-                        }
-
-                    }
-                ) {
-                    Text(text = button.value)
-
-                }
+                Button(onClick = onStartStopBtnClick) { Text(text = button.value) }
 
 
             }
