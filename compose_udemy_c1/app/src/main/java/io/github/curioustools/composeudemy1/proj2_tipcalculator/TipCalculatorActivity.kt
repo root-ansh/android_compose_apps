@@ -25,6 +25,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -40,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -53,7 +55,6 @@ import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.Black
 import io.github.curioustools.composeudemy1.utils.ComposeUtils.Colors.White
 import io.github.curioustools.composeudemy1.utils.toIcon
 import java.util.Locale
-import kotlin.math.round
 import kotlin.math.roundToInt
 
 
@@ -179,16 +180,32 @@ class TipCalculatorActivity : BaseComposeActivity() {
 
     @Preview(showBackground = true)
     @Composable
-    private fun TipAmountBlock(count: Int = 0) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(text = "Tip", modifier = Modifier.weight(1f))
-            Text(text = "$ $count/-", modifier = Modifier.padding(horizontal = 12.dp))
-        }
+    private fun TipAmountBlock(count: Double = 0.0,title:String ="Tip Amount") {
+        OutlinedTextField(
+            value = "${String.format(Locale.getDefault(),"%.2f",count)}/-",
+            label = { Text(text = title) },
+            onValueChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = Icons.Rounded.AttachMoney.toIcon(),
+            trailingIcon = null,
+            visualTransformation = VisualTransformation.None,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            enabled = false,
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                disabledContainerColor = Color.Transparent,
+                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledSupportingTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledPrefixColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledSuffixColor = MaterialTheme.colorScheme.onSurfaceVariant
+            ),
+        )
 
     }
 
@@ -227,6 +244,19 @@ class TipCalculatorActivity : BaseComposeActivity() {
     @Preview
     @Composable
     fun CalculatorUI(screenValue: (Double) -> Unit = {}) {
+        val error = remember { mutableStateOf("") }
+        val shares = remember { mutableIntStateOf(1) }
+        val tipPercent = remember { mutableIntStateOf(0) }
+        val tipAmount = remember { mutableDoubleStateOf(0.0) }
+        val userAmount = remember { mutableDoubleStateOf(0.0) }
+        val totalAmount = remember { mutableDoubleStateOf(0.0) }
+        val calculate = {
+            tipAmount.doubleValue = (userAmount.doubleValue * tipPercent.intValue / 100)
+            totalAmount.doubleValue = (userAmount.doubleValue + tipAmount.doubleValue)
+            val userValue = (totalAmount.doubleValue / shares.intValue)
+            screenValue.invoke(userValue)
+        }
+
         Card(
             modifier = Modifier.padding(8.dp),
             shape = RoundedCornerShape(4.dp),
@@ -241,20 +271,6 @@ class TipCalculatorActivity : BaseComposeActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-
-                val error = remember { mutableStateOf("") }
-                val shares = remember { mutableIntStateOf(1) }
-                val tipPercent = remember { mutableIntStateOf(0) }
-                val tipAmount = remember { mutableIntStateOf(0) }
-                val userAmount = remember { mutableDoubleStateOf(0.0) }
-
-
-                val calculate = {
-                    tipAmount.intValue = (userAmount.doubleValue  * tipPercent.intValue/100).roundToInt()
-                    val userValue = ((userAmount.doubleValue + tipAmount.intValue) / shares.intValue)
-                    screenValue.invoke(userValue)
-                }
-
                 InputBlock(error.value) {
                     val inputAsDouble = it.toDoubleOrNull() ?: 0.0
                     if (inputAsDouble > 1000) error.value = "please enter a smaller amount"
@@ -262,6 +278,8 @@ class TipCalculatorActivity : BaseComposeActivity() {
                     userAmount.doubleValue = inputAsDouble
                     calculate()
                 }
+                TipAmountBlock(tipAmount.doubleValue)
+                TipAmountBlock(totalAmount.doubleValue, "Total Amount")
                 CounterBlock(
                     shares.intValue,
                     onAdd = {
@@ -274,11 +292,9 @@ class TipCalculatorActivity : BaseComposeActivity() {
                         calculate()
                     }
                 )
-                TipAmountBlock(tipAmount.intValue)
                 SliderBlock {
                     tipPercent.intValue = it
                     calculate()
-
                 }
             }
         }
@@ -287,6 +303,7 @@ class TipCalculatorActivity : BaseComposeActivity() {
 
     @Composable
     override fun Ui(savedInstanceState: Bundle?) {
+        val amount = remember { mutableDoubleStateOf(0.0) }
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
                 modifier = Modifier
@@ -296,7 +313,7 @@ class TipCalculatorActivity : BaseComposeActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                val amount = remember { mutableDoubleStateOf(0.0) }
+
                 Screen(amount.doubleValue)
                 Spacer(modifier = Modifier.padding(4.dp))
                 CalculatorUI {
