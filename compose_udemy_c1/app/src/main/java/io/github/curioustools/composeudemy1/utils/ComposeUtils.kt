@@ -1,15 +1,19 @@
 package io.github.curioustools.composeudemy1.utils
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -54,29 +58,29 @@ object ComposeUtils{
     }
     
     val DarkColorScheme = darkColorScheme(
-        primary = Black,
-        onPrimary = White,
-        secondary = Grey,
-        onSecondary = White,
-        tertiary = Grey,
-        onTertiary = White,
-        background = Black,
-        onBackground = White,
-        surface = Black,
-        onSurface = White,
+//        primary = Black,
+//        onPrimary = White,
+//        secondary = Grey,
+//        onSecondary = White,
+//        tertiary = Grey,
+//        onTertiary = White,
+//        background = Black,
+//        onBackground = White,
+//        surface = Black,
+//        onSurface = White,
     )
 
     val LightColorScheme = lightColorScheme(
-        primary = White,
-        onPrimary = Black,
-        secondary = Grey,
-        onSecondary = Black,
-        tertiary = Grey,
-        onTertiary = Black,
-        background = White,
-        onBackground = Black,
-        surface = White,
-        onSurface = Black,
+//        primary = White,
+//        onPrimary = Black,
+//        secondary = Grey,
+//        onSecondary = Black,
+//        tertiary = Grey,
+//        onTertiary = Black,
+//        background = White,
+//        onBackground = Black,
+//        surface = White,
+//        onSurface = Black,
 
     )
     val Typography = Typography(
@@ -99,3 +103,11 @@ inline fun Modifier.noRippleClickable(
         onClick()
     }
 }
+
+
+fun ImageVector.toIcon(modifier: Modifier = Modifier, desc: String = "icon"): ComposableBlock {
+    return { Icon(imageVector = this, contentDescription = desc, modifier = modifier) }
+
+}
+
+typealias ComposableBlock = @Composable () -> Unit

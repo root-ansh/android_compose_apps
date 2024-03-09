@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.DashboardFragment"
+        android:name="io.github.curioustools.composeudemy1.proj3_compose_in_frag.fragments.CounterFragment"
         android:label="@string/title_dashboard"/>
 
     <fragment

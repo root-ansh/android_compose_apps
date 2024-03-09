@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.github.curioustools.composeudemy1.databinding.ActivityMainBinding
 import io.github.curioustools.composeudemy1.proj1_resume.ResumeActivity
+import io.github.curioustools.composeudemy1.proj2_tipcalculator.TipCalculatorActivity
 import io.github.curioustools.composeudemy1.proj3_compose_in_frag.ComposeDashboardActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +18,10 @@ class MainActivity : AppCompatActivity() {
             resume.setOnClickListener {
                 startActivity(Intent(this@MainActivity,ResumeActivity::class.java))
             }
+            tipCalculator.setOnClickListener {
+                startActivity(Intent(this@MainActivity,TipCalculatorActivity::class.java))
+            }
+
             composeFragmentDashboard.setOnClickListener {
                 startActivity(Intent(this@MainActivity, ComposeDashboardActivity::class.java))
 

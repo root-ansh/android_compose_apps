@@ -33,7 +33,7 @@ import io.github.curioustools.composeudemy1.utils.BaseComposeFragment
 import io.github.curioustools.composeudemy1.utils.ComposeUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
-class DashboardFragment : BaseComposeFragment() {
+class CounterFragment : BaseComposeFragment() {
 
     @Preview
     @Composable
