@@ -1,7 +1,9 @@
 package io.github.curioustools.composeudemy1.movie
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -13,6 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -31,9 +36,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
@@ -42,10 +49,40 @@ import io.github.curioustools.composeudemy1.base.BaseComposeActivity
 import io.github.curioustools.composeudemy1.base.ComposeUtils
 import io.github.curioustools.composeudemy1.base.MyComposeColors
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Black
+import io.github.curioustools.composeudemy1.base.toIcon
 import org.json.JSONArray
+import java.io.InputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MovieActivity : BaseComposeActivity() {
+
+    @Preview
+    @Composable
+    fun MovieDetails(controller: NavHostController?=null, arguments: Bundle?=null) {
+        val id = arguments?.getString("id").orEmpty().toIntOrNull()
+        val name = arguments?.getString("name").orEmpty()
+        if (id == null) {
+            Toast.makeText(LocalContext.current, "id can't be empty", Toast.LENGTH_SHORT).show()
+            controller?.popBackStack()
+            return
+        }
+        Scaffold(modifier = Modifier.fillMaxSize(),
+            topBar = {
+                MyToolbar("Item#$id", icon = Icons.AutoMirrored.Filled.ArrowBack.toIcon(modifier = Modifier.clickable { controller?.popBackStack() }))
+            }
+        ) { padding ->
+            Column(Modifier.padding(padding)) {
+                MovieBlock(
+                    id = id,
+                    name = name,
+                    img = "https://picsum.photos/id/$id/200/300",
+                )
+
+            }
+
+        }
+
+    }
 
     @Preview
     @Composable
@@ -96,14 +133,15 @@ class MovieActivity : BaseComposeActivity() {
             rows = GridCells.Fixed(3),
             modifier = Modifier.height(450.dp)
         ) {
-            val onClick: (Int) -> Unit = {  controller?.navigate(Screens.DETAILS.route) }
-            items(data.count()){
+            val onClick: (Int) -> Unit = {  }
+            items(data.count()){id ->
                 MovieBlock(
-                    id = it,
-                    name = "Movie#$it",
-                    img = "https://picsum.photos/id/$it/200/300",
-                    onClick = onClick,
-                )
+                    id = id,
+                    name = "Movie#$id",
+                    img = "https://picsum.photos/id/$id/200/300",
+                ){
+                    controller?.navigate(Screens.DETAILS.baseRoute+"/$id?name=boy")
+                }
             }
             
         }
@@ -113,10 +151,11 @@ class MovieActivity : BaseComposeActivity() {
 
     @Preview
     @Composable
-    fun MyToolbar(){
+    fun MyToolbar(title:String = "Movies!", icon:@Composable ()-> Unit = {}){
         Surface(modifier = Modifier.shadow(4.dp)) {
             TopAppBar(
-                title = { Text(text = "Movies!") },
+                title = { Text(text = title) },
+                navigationIcon = icon,
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MyComposeColors.Blue80,
                     titleContentColor = Black,
@@ -131,9 +170,20 @@ class MovieActivity : BaseComposeActivity() {
         Scaffold(modifier = Modifier.fillMaxSize(), topBar = {MyToolbar()}) { padding ->
             Column(Modifier.padding(padding)) {
                 val controller: NavHostController = rememberNavController()
-                NavHost(navController = controller, startDestination = Screens.HOME.route){
-                    composable(Screens.HOME.route){MovieList(controller)}
-                    composable(Screens.DETAILS.route){MovieBlock()}
+                NavHost(navController = controller, startDestination = Screens.HOME.baseRoute){
+                    composable(Screens.HOME.baseRoute) { MovieList(controller) }
+
+                    composable(
+                        route = "${Screens.DETAILS.baseRoute}/{id}?name={name}",
+                        arguments = listOf(
+                            navArgument("id"){type = NavType.StringType},
+                            navArgument("name"){type = NavType.StringType},
+                            )
+                    ) {
+
+
+                        MovieDetails(controller,it.arguments)
+                    }
 
                 }
             }
@@ -154,12 +204,19 @@ class MovieActivity : BaseComposeActivity() {
     }
 
     companion object {
-        fun data(): JSONArray {
-            return JSONArray(
-                """
-                    [{"createdAt":"2024-03-09T01:46:42.446Z","name":"Howard Nader DVM","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/789.jpg","id":"1"},{"createdAt":"2024-03-09T10:35:50.185Z","name":"Misty Terry","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/50.jpg","id":"2"},{"createdAt":"2024-03-08T21:01:55.644Z","name":"Darrel West","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1021.jpg","id":"3"},{"createdAt":"2024-03-09T00:48:04.551Z","name":"Mrs. Sheri Luettgen","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1113.jpg","id":"4"},{"createdAt":"2024-03-09T12:45:40.865Z","name":"Martha Mosciski DDS","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1050.jpg","id":"5"},{"createdAt":"2024-03-09T06:18:15.030Z","name":"Guadalupe Fahey","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/755.jpg","id":"6"},{"createdAt":"2024-03-09T17:19:07.885Z","name":"Candace Wilkinson","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/991.jpg","id":"7"},{"createdAt":"2024-03-09T15:07:37.022Z","name":"Charlene Lynch","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/689.jpg","id":"8"},{"createdAt":"2024-03-08T19:46:17.597Z","name":"Jose Mosciski","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/151.jpg","id":"9"},{"createdAt":"2024-03-09T01:54:25.139Z","name":"Pauline Pacocha","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/458.jpg","id":"10"},{"createdAt":"2024-03-09T11:09:21.449Z","name":"Alfredo Johnston","avatar":"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/713.jpg","id":"11"}]
-                """.trimIndent()
-            )
+        fun data(context:Context): JSONArray {
+            val jsonStr :String? = try {
+                val inputStream: InputStream = context.resources.openRawResource(R.raw.data)
+                val size = inputStream.available()
+                val buffer = ByteArray(size)
+                inputStream.read(buffer)
+                inputStream.close()
+                String(buffer, Charsets.UTF_8)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                null
+            }
+            return JSONArray(jsonStr?:"[]")
         }
         private val lightColorHexCodes = listOf(
             "#F0F8FF", // AliceBlue
