@@ -56,7 +56,6 @@ import io.github.curioustools.composeudemy1.base.toIcon
 import org.json.JSONArray
 import java.io.InputStream
 
-@OptIn(ExperimentalMaterial3Api::class)
 class MovieActivity : BaseComposeActivity() {
 
     @Preview
@@ -151,6 +150,7 @@ class MovieActivity : BaseComposeActivity() {
 
 
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Preview
     @Composable
     fun MyToolbar(title:String = "Movies!", icon:@Composable ()-> Unit = {}){

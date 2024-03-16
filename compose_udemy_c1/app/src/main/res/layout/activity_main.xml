@@ -41,6 +41,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="6. Movie App" />
+        <Button
+            android:id="@+id/notesdb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="6. Notes DB App" />
 
 
 

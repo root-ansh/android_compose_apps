@@ -7,6 +7,7 @@ import io.github.curioustools.composeudemy1.databinding.ActivityMainBinding
 import io.github.curioustools.composeudemy1.resume.ResumeActivity
 import io.github.curioustools.composeudemy1.tipcalculator.TipCalculatorActivity
 import io.github.curioustools.composeudemy1.compose_in_frag.ComposeDashboardActivity
+import io.github.curioustools.composeudemy1.full_notes.NotesActivity
 import io.github.curioustools.composeudemy1.movie.MovieActivity
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +31,9 @@ class MainActivity : AppCompatActivity() {
             movie.setOnClickListener {
                 startActivity(Intent(this@MainActivity, MovieActivity::class.java))
 
+            }
+            notesdb.setOnClickListener {
+                startActivity(Intent(this@MainActivity, NotesActivity::class.java))
             }
         }
     }

@@ -1,11 +1,13 @@
 package io.github.curioustools.composeudemy1.base
 
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 
 object MyComposeColors {
     val White = Color.White
     val Black = Color.Black
     val Grey = Color.LightGray
+    val DarkGrey = Color.Gray
 
     val Purple80 = Color(0xFFD0BCFF)
     val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -34,4 +36,8 @@ object MyComposeColors {
     val Yellow40 = Color(0xFFFFEB3B)
     val YellowGrey40 = Color(0xFFFFF176)
     val Brown40 = Color(0xFFA1887F)
+}
+
+fun String.toColor():Color{
+    return runCatching { Color(this.toColorInt()) }.getOrElse { Color.Black }
 }
