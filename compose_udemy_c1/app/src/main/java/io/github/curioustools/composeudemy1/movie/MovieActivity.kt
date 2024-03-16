@@ -8,11 +8,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.material.icons.Icons
@@ -49,6 +51,7 @@ import io.github.curioustools.composeudemy1.base.BaseComposeActivity
 import io.github.curioustools.composeudemy1.base.ComposeUtils
 import io.github.curioustools.composeudemy1.base.MyComposeColors
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Black
+import io.github.curioustools.composeudemy1.base.MyComposeColors.White
 import io.github.curioustools.composeudemy1.base.toIcon
 import org.json.JSONArray
 import java.io.InputStream
@@ -58,7 +61,7 @@ class MovieActivity : BaseComposeActivity() {
 
     @Preview
     @Composable
-    fun MovieDetails(controller: NavHostController?=null, arguments: Bundle?=null) {
+    fun MovieDetails(controller: NavHostController? = null, arguments: Bundle? = null) {
         val id = arguments?.getString("id").orEmpty().toIntOrNull()
         val name = arguments?.getString("name").orEmpty()
         if (id == null) {
@@ -90,20 +93,18 @@ class MovieActivity : BaseComposeActivity() {
         id:Int = 0,
         name: String = "User Name",
         img: String ="",
-        onClick: (Int) -> Unit = {}
+        onClick: (Int) -> Unit = {},
     ) {
-        Surface(
-            color = if(id%2==0) MyComposeColors.Brown80 else MyComposeColors.Green80,
-            modifier = Modifier.size(150.dp, 180.dp)) {
-            Box(modifier = Modifier.clickable { onClick(id) }) {
+        Surface(color = if(id%2==0) MyComposeColors.Brown80 else MyComposeColors.Green80,) {
+            Box(modifier = Modifier.width(150.dp).clickable { onClick(id) }) {
                 AsyncImage(
+                    modifier = Modifier.fillMaxWidth(),
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(img)
                         .setHeader("User-Agent", "Mozilla/5.0")
                         .crossfade(true)
                         .placeholder(R.drawable.bg_placeholder)
                         .error(R.drawable.bg_error)
-                        .scale(Scale.FILL)
                         .build(),
                     contentDescription = "icon",
                     contentScale = ContentScale.FillBounds,
@@ -114,10 +115,11 @@ class MovieActivity : BaseComposeActivity() {
                     text = name.capitalize(Locale.current),
                     textAlign = TextAlign.Center,
                     style = ComposeUtils.Typography.bodyLarge,
+                    color = White,
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
                         .fillMaxWidth()
-                        .background(MyComposeColors.Grey.copy(0.3f))
+                        .background(Black.copy(0.6f))
+                        .align(Alignment.BottomCenter)
                         .padding(vertical = 8.dp)
 
                 )

@@ -41,18 +41,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.github.curioustools.composeudemy1.base.BaseComposeActivity
 import io.github.curioustools.composeudemy1.base.ComposeUtils
 import io.github.curioustools.composeudemy1.base.MyComposeColors
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Black
+import io.github.curioustools.composeudemy1.base.MyComposeColors.Blue40
+import io.github.curioustools.composeudemy1.base.MyComposeColors.Red40
 import io.github.curioustools.composeudemy1.base.MyComposeColors.White
 import io.github.curioustools.composeudemy1.base.toIcon
 import java.util.Locale
@@ -91,6 +102,57 @@ class TipCalculatorActivity : BaseComposeActivity() {
             }
 
         }
+    }
+
+    @Composable
+    @Preview
+    private fun StylishText(){
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Blue40,
+                        shadow = Shadow(Blue40, Offset(8f,4f), blurRadius = 8f)
+                    )
+                ){append("hello ")}
+                withStyle(
+                    style = SpanStyle(
+                        color = Red40,
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.ExtraBold
+
+                    )
+                ){append("welcome ")}
+
+                withStyle(
+                    style = SpanStyle(
+                        fontFamily = FontFamily.Cursive,
+                        background = MyComposeColors.Yellow40
+                    )
+                ){append("to the Tip Calculator. ")}
+
+
+                withStyle(
+                    style = SpanStyle(
+                        fontFamily = FontFamily.Monospace,
+                        letterSpacing = 4.sp,
+                        textDecoration = TextDecoration.combine(listOf(TextDecoration.LineThrough,TextDecoration.Underline))
+                    )
+                ){append("More info:")}
+
+                // clickable?
+                // web/phone links?
+                //html reader spannable??
+
+
+
+
+            }
+        )
+
     }
 
 
@@ -315,6 +377,7 @@ class TipCalculatorActivity : BaseComposeActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
+                StylishText()
 
                 Screen(amount.doubleValue)
                 Spacer(modifier = Modifier.padding(4.dp))
