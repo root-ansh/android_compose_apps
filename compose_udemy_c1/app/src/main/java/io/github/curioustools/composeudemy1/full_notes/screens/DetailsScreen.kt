@@ -2,6 +2,7 @@ package io.github.curioustools.composeudemy1.full_notes.screens
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -24,7 +25,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -34,57 +34,59 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import io.github.curioustools.composeudemy1.base.MyComposeColors
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Black
 import io.github.curioustools.composeudemy1.base.MyComposeColors.DarkGrey
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Green80
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Grey
 import io.github.curioustools.composeudemy1.base.MyComposeColors.Purple80
 import io.github.curioustools.composeudemy1.base.MyComposeColors.White
+import io.github.curioustools.composeudemy1.base.MyComposeColors.Yellow80
 import io.github.curioustools.composeudemy1.base.toColor
 import io.github.curioustools.composeudemy1.base.toCustomDateString
+import io.github.curioustools.composeudemy1.base.asHexString
 import io.github.curioustools.composeudemy1.base.toIcon
 import io.github.curioustools.composeudemy1.base.toastComp
-import io.github.curioustools.composeudemy1.full_notes.model.NoteModel
+import io.github.curioustools.composeudemy1.full_notes.enums.Routes
 
 
-private fun getNextColor(currentColor: Color): Color {
-    return when (currentColor.value) {
-        White.value -> Purple80
-        Purple80.value -> Green80
-        Green80.value -> White
+private fun getNextColor(colorStr: String): String {
+    val currentColor =  colorStr.toColor()
+    val next =  when (currentColor) {
+        White -> Purple80
+        Purple80 -> Green80
+        Green80 -> Yellow80
+        Yellow80 -> White
         else -> White
     }
+
+    return next.asHexString()
 }
 
 @Composable
 @Preview
 fun Title(
-    controller: NavHostController? = null,
     title: String = "Title",
-    modifier: Modifier = Modifier,
     color: String = "#ffbbff",
+    onBackPress:()-> Unit = {},
     onColorChange: (String) -> Unit = {},
     onValueChanged: (String) -> Unit = {}
 ) {
     val titleData = remember { mutableStateOf(title) }
     val showHint = remember { mutableStateOf(title.isEmpty()) }
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp, 8.dp),
         verticalAlignment = Alignment.Top
     ) {
         IconButton(
-            onClick = { controller?.popBackStack() },
+            onClick = { onBackPress()},
             modifier = Modifier
                 .padding(top = 4.dp)
                 .size(24.dp),
@@ -149,7 +151,7 @@ fun Details(
                 onValueChanged(it)
             },
 
-            textStyle = TextStyle(fontSize = 14.sp)
+            textStyle = TextStyle(fontSize = 16.sp)
         )
         Row(
             modifier = Modifier
@@ -190,24 +192,44 @@ fun Details(
     showSystemUi = true
 )
 @Composable
-fun DetailsScreen(controller: NavHostController? = null, note: NoteModel? = NoteModel.mock()) {
-//    if (note == null) {
-//        toastComp("something went wrong!")
-//        controller?.popBackStack()
-//        return
-//    }
-    val note = note?:NoteModel.mock()
-    Scaffold(containerColor = note.color.toColor()) { p ->
+fun DetailsScreen(controller: NavHostController? = null, args:Bundle? = null) {
+    val note= Routes.Details.getNote(args)
+    if (note == null) {
+        toastComp("something went wrong!")
+        controller?.popBackStack()
+        return
+    }
+    val title = remember { mutableStateOf(note.title) }
+    val details = remember { mutableStateOf(note.details) }
+    val updatedAt = remember { mutableStateOf(note.updatedAt) }
+    val color = remember { mutableStateOf(note.color) }
+
+    Scaffold(containerColor = color.value.toColor()) { p ->
         Box(
             modifier = Modifier
                 .padding(p)
                 .fillMaxSize()
         ) {
             Column {
-                Title()
-                Details(modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1f))
+                Title(
+                    title = title.value,
+                    color = color.value,
+                    onBackPress = { controller?.popBackStack() },
+                    onColorChange = { color.value = getNextColor(it) },
+                    onValueChanged = { title.value = it },
+                    )
+                Details(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f),
+                    text = details.value,
+                    createdAt = note.createdAt,
+                    updatedAt = updatedAt.value,
+                    onValueChanged = {
+                        details.value = it
+                        updatedAt.value = System.currentTimeMillis()
+                    }
+                )
             }
             Button(
                 elevation = ButtonDefaults.elevatedButtonElevation(8.dp),

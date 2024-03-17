@@ -41,3 +41,10 @@ object MyComposeColors {
 fun String.toColor():Color{
     return runCatching { Color(this.toColorInt()) }.getOrElse { Color.Black }
 }
+fun Color.asHexString(): String {
+    val alpha = this.alpha*255
+    val red = this.red * 255
+    val green = this.green * 255
+    val blue = this.blue * 255
+    return String.format("#%02x%02x%02x",red.toInt(), green.toInt(), blue.toInt())
+}

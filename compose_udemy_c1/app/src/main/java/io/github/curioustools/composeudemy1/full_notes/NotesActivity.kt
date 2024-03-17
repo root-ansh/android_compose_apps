@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.github.curioustools.composeudemy1.base.BaseComposeActivity
-import io.github.curioustools.composeudemy1.full_notes.enums.Routes
 import io.github.curioustools.composeudemy1.full_notes.enums.Routes.Details
 import io.github.curioustools.composeudemy1.full_notes.enums.Routes.Home
 import io.github.curioustools.composeudemy1.full_notes.screens.DetailsScreen
@@ -18,9 +17,9 @@ class NotesActivity : BaseComposeActivity(){
     @Composable
     override fun Ui(savedInstanceState: Bundle?) {
         val controller = rememberNavController()
-        NavHost(navController = controller, startDestination = Details.routeID ){
-            composable(Home.routeID){ HomeScreen(controller)}
-            composable(Details.routeID){ DetailsScreen(controller,Details.getNote(it.arguments))}
+        NavHost(navController = controller, startDestination = Home.schemaRoute() ){
+            composable(Home.schemaRoute(),Home.schemaArgs()){ HomeScreen(controller,it.arguments)}
+            composable(Details.schemaRoute(), Details.schemaArgs()){ DetailsScreen(controller,it.arguments)}
         }
     }
 
